@@ -5,7 +5,7 @@ const webpack = require('webpack');
 // webpack plugin
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
@@ -33,21 +33,27 @@ module.exports = prodMerge(basicConfig, {
     module: {
         rules: [
             {
+                test: /(\.css$)/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader'
+                ]
+            },
+            {
                 test: /\.less$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: [
-                        {
-                            loader: 'css-loader'
-                        },
-                        {
-                            loader: 'less-loader',
-                            options: {
-                                javascriptEnabled: true
-                            }
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader'
+                    },
+                    {
+                        loader: 'less-loader',
+                        options: {
+                            javascriptEnabled: true
                         }
-                    ]
-                })
+                    }
+                ]
+
             }
         ]
     },
@@ -66,8 +72,8 @@ module.exports = prodMerge(basicConfig, {
         ]
     },
     plugins: [
-        new ExtractTextPlugin({
-            filename: 'css/[name].[md5:contenthash:hex:20].css'
+        new MiniCssExtractPlugin({
+            filename: 'css/[name].[hash].css'
         }),
         new CopyWebpackPlugin([
             {

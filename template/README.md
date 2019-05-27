@@ -5,24 +5,24 @@ react & mobx-mst & typescript & webpack usage
 #### prepare
 
 ```js
-yarn
+yarn / npm i
 ```
 
 #### dev
 
 ```
-yarn dll
+yarn dll / npm run dll
 ```
 
 ```
-yarn dev
+yarn dev / npm run dev
 ```
 #### prod
 ```
-yarn run builddll
+yarn run builddll / npm run builddll
 ```
 
 ```
-yarn run build
+yarn run build / npm run build
 ```
 

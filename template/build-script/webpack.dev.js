@@ -5,6 +5,7 @@ const webpack = require('webpack');
 // webpack plugin
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const basicConfig = require('./webpack.base');
 const ROOT_PATH = path.resolve(__dirname, '../');
@@ -51,7 +52,7 @@ module.exports = devStrategyMerge(
             ]
         },
         plugins: [
-            new ExtractTextPlugin('css/[name].[hash].css'),
+            new MiniCssExtractPlugin('css/[name].[hash].css'),
             new HtmlWebpackPlugin({
                 title: 'quick-start',
                 template: './index.html',

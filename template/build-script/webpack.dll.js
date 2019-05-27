@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 // plugin
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 
@@ -18,7 +18,7 @@ const plugins = [
         path: path.join(publicPath, '[name]-manifest.json'),
         name: dllName
     }),
-    new ExtractTextPlugin(dllFileName + '.css')
+    new MiniCssExtractPlugin(dllFileName + '.css')
 ];
 
 const webpackConfig = {
@@ -41,19 +41,18 @@ const webpackConfig = {
     module: {
         rules: [{
             test: /\.less$/,
-            use: ExtractTextPlugin.extract({
-                use: [
-                    {
-                    loader: 'css-loader'
-                    },
-                    {
-                        loader: 'less-loader',
-                        options: {
-                            javascriptEnabled: true
-                        }
+            use: [
+                MiniCssExtractPlugin.loader,
+                {
+                loader: 'css-loader'
+                },
+                {
+                    loader: 'less-loader',
+                    options: {
+                        javascriptEnabled: true
                     }
-                ]
-            })
+                }
+            ]
         }]
     },
     plugins,

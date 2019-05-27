@@ -1,11 +1,6 @@
 const path = require('path');
-// const webpack = require('webpack');
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const babelConfig = require('./babel.config');
-// const config = require('../config');
-// const ROOT_PATH = path.resolve(__dirname, '../');
 
 module.exports = {
     entry: ['./src/index.jsx'],
@@ -42,6 +37,6 @@ module.exports = {
         ]
     },
     plugins: [
-        new ExtractTextPlugin('css/[name].[hash].css')
+        // new MiniCssExtractPlugin('css/[name].[hash].css')
     ]
 };
