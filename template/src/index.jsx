@@ -1,22 +1,19 @@
+/**
+ * @file 入口
+ * @author wangtianyu(wty_521@126.com)
+ */
+
+import '@babel/polyfill';
 import React from 'react';
-import { LocaleProvider } from 'antd';
-import { render } from 'react-dom';
-import { Provider } from 'mobx-react';
-import { HashRouter as Router } from 'react-router-dom';
-import { useStrict } from 'mobx';
-import App from './app';
-import stores from './store';
-import './index.less';
+import {render} from 'react-dom';
 
-useStrict(true);
-const Root = () => (<Provider {...stores}>
-  <Router>
-    <App />
-  </Router>
-</Provider>);
+import App from './entry/App';
 
-if (module.hot) { // hmr necessary
-  module.hot.accept();
-}
+import './less/index.less';
 
-render(<Root />, document.getElementById('root'));
+const mainEl = document.getElementById('root');
+
+render(
+  <App />,
+  mainEl
+);

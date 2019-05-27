@@ -1,48 +1,92 @@
 const path = require('path');
 const merge = require('webpack-merge');
 const webpack = require('webpack');
-const base = require('./webpack.base');
+
+// webpack plugin
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
-const config = require('../config');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+
+//
+const basicConfig = require('./webpack.base');
 const ROOT_PATH = path.resolve(__dirname, '../');
 
-// production 环境看情况使用 dll，dll 存在一个问题：dll 预先把不常改变的包，提前编译打包，但是对于按需加载的，比如 antd 可能只用到了几个组件，使用 dll 就会全部打入，不过 react 这样可以使用。
-module.exports = merge(base, {
-  devtool: false,
-  output: {
-    path: path.join(ROOT_PATH, '/public'),
-    publicPath: config.cdn || '/',
-    filename: 'js/[name].[hash].js',
-    chunkFilename: 'js/[name].[chunkhash:5].chunk.js',
-  },
-  plugins: [
-    new HtmlIncludeAssetsPlugin({
-      assets: [`dll/${require('../public/dll/vendor-manifest.json').name}.js`],
-      append: false
-    }),
-    new HtmlWebpackPlugin({
-      title: 'quick-start',
-      template: './index.html',
-    }),
-    new webpack.DllReferencePlugin({
-      context: ROOT_PATH,
-      manifest: require(ROOT_PATH + '/public/dll/vendor-manifest.json'),
-      sourceType: 'var',
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true,
-      parallel: true,
-      output: {
-        comments: false,
-        beautify: false,
-      },
-    }),
-    new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': "'production'"
-      }
-    }),
-  ],
+// 定义webpack配置合并策略
+const prodMerge = merge.strategy({
+    'entry': 'prepend',
+    'plugins': 'prepend',
+    'module': 'append'
+});
+
+
+module.exports = prodMerge(basicConfig, {
+    mode: 'production',
+    devtool: false,
+    output: {
+        path: path.join(ROOT_PATH, '/public'),
+        publicPath: '/',
+        filename: 'js/[name].[hash].js',
+        chunkFilename: 'js/[name].[chunkhash:5].chunk.js',
+    },
+    module: {
+        rules: [
+            {
+                test: /\.less$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: [
+                        {
+                            loader: 'css-loader'
+                        },
+                        {
+                            loader: 'less-loader',
+                            options: {
+                                javascriptEnabled: true
+                            }
+                        }
+                    ]
+                })
+            }
+        ]
+    },
+    optimization: {
+        minimizer: [
+            new TerserPlugin({
+                sourceMap: true,
+                cache: true,
+                parallel: true,
+                terserOptions: {
+                    compress: false,
+                    ecma: 6,
+                    mangle: true
+                }
+            })
+        ]
+    },
+    plugins: [
+        new ExtractTextPlugin({
+            filename: 'css/[name].[md5:contenthash:hex:20].css'
+        }),
+        new CopyWebpackPlugin([
+            {
+              from: './dll/pro',
+              to: 'js',
+            },
+        ]),
+        new HtmlWebpackPlugin({
+            title: 'quick-start',
+            template: './index.html',
+        }),
+        new HtmlIncludeAssetsPlugin({
+            assets: [`dll/${require('../dll/pro/vendor-manifest.json').name}.js`],
+            append: false
+        }),
+        new webpack.DllReferencePlugin({
+            context: ROOT_PATH,
+            manifest: require(ROOT_PATH + '/dll/pro/vendor-manifest.json'),
+            sourceType: 'var',
+        }),
+    ],
 });

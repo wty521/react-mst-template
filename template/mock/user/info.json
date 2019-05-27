@@ -1,0 +1,13 @@
+{
+    "data": {
+        "logId": "aaaaa",
+        "errorCode": 0,
+        "errorMsg": "success",
+        "result": {
+            "userName": "嫩江土特产",
+            "nickname": "Iron Man",
+            "userId": 1,
+            "userType": 2
+        }
+    }
+}
