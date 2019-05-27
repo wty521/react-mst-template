@@ -4,7 +4,7 @@ react & mobx-mst & typescript & webpack usage
 ### Scripts
 #### prepare
 
-```
+```js
 yarn
 ```
 
