@@ -17,10 +17,11 @@ import {observer} from 'mobx-react';
 import {Layout} from 'antd';
 
 // routes
-const Index = loadable({
-    loader: () => import(/* webpackChunkName: "index" */'../routes/index'),
-    loading: () => <React.Fragment />
-});
+// const Index = loadable({
+//     loader: () => import(/* webpackChunkName: "index" */'../routes/index'),
+//     loading: () => <React.Fragment />
+// });
+import Index from '../routes/index';
 
 const { Content } = Layout;
 

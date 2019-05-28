@@ -1,6 +1,6 @@
 const path = require('path');
 
-const babelConfig = require('./babel.config');
+// const babelConfig = require('./babel.config');
 
 module.exports = {
     entry: ['./src/index.jsx'],
@@ -19,7 +19,7 @@ module.exports = {
                     loader: 'babel-loader',
                     options: {
                         cacheDirectory: true,
-                        ...babelConfig
+                        // ...babelConfig
                     }
                 },
             },

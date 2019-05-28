@@ -49,7 +49,6 @@ export default types
     .actions(self => {
         const getUserInfo = flow(function* () {
             const data = yield UserApi.getUserInfo();
-            console.log(data);
             applySnapshot(self, data);
         });
         return {
@@ -58,7 +57,7 @@ export default types
     })
     .actions(self => ({
         // 生命周期函数
-        afterCreate() {
+        afterCreate(): void {
             // 初始化集群任务列表
             self.getUserInfo();
         }

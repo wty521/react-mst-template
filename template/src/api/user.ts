@@ -9,6 +9,13 @@ class UserApi {
         .post('/api/user/info')
         .type('form');
     }
+
+    @unpack()
+    getList() {
+        return request
+        .post('/api/list')
+        .type('form');
+    }
 }
 
 export default new UserApi();

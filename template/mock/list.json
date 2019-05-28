@@ -1,0 +1,19 @@
+{
+    "data": {
+        "logId": "aaaaa",
+        "errorCode": 0,
+        "errorMsg": "success",
+        "result": [
+            {
+                "name": "Iron man",
+                "price": 9999,
+                "image": "https://avatars2.githubusercontent.com/u/18510999?s=460&v=4"
+            },
+            {
+                "name": "Iron man2",
+                "price": 11.99,
+                "image": "https://avatars2.githubusercontent.com/u/18510999?s=460&v=4"
+            }
+        ]
+    }
+}
