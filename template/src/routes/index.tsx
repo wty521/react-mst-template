@@ -39,6 +39,7 @@ export default class Index extends React.Component<IProps> {
 
     clearTimer = (): void => {
         clearInterval(Number(this.timer));
+        this.timer = null;
     };
 
     componentWillUnmount() {
